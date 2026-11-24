@@ -1,0 +1,16 @@
+# Inkling-2-Mini at revision b85c3cfa615fc413cc9af3379f491b963f3b586a, from the Hugging Face API (tree, recursive).
+# path  size  kind  hash   (kind sha256 = Git LFS object id, the file's SHA-256; kind gitsha1 = Git blob SHA-1 of a small file)
+.gitattributes  1570  gitsha1  52373fe24473b1aa44333d318f578ae6bf04b49b
+README.md  54870  gitsha1  37211e195aab70f624c8421421d3892b7a074db6
+chat_template.jinja  6868  gitsha1  cae99e08917fe3d9ff21551a7c9a835981c69032
+config.json  2722  gitsha1  e6c170c3fb666c50e3b509493b6b7a8f948b7d15
+generation_config.json  98  gitsha1  1b5d49d129001d2be58c2f254bfae3221eab6d96
+hf_quant_config.json  67924  gitsha1  ec915fa4d2b07bfe26240f71e981d34778022baf
+model-00001-of-00001.safetensors  19526019168  sha256  65e60f51aa1284d4fb022584908c315270334d991828bb774af60584523539d1
+model.safetensors.index.json  109300  gitsha1  3b835a38066039133931b604a0734dfae89a644e
+mtp.safetensors  635801416  sha256  7c3b651317f01f73bcf4e1dceba66ef8b7e1a1eac6bc171e882e690a4b10a1d2
+processor_config.json  461  gitsha1  0e6df76a75a15f8af795dc08346dad6741f6421e
+special_tokens_map.json  529  gitsha1  e4fe9735b528be1c630eb832d655fc8c4c2c309f
+tiktoken/tokenizer.model  3386494  sha256  f170372dd655728909228220d77cf6b8104a59f38a91262a7d2c4027906ec0d8
+tokenizer.json  26178678  sha256  7f332727f9a3f093dd452a39cc978e6757627e5dad1b0673aa4e75174f236dd6
+tokenizer_config.json  13235  gitsha1  abf8fb60451e6c33d2cfa3c4dfab9f8c1e7516aa
