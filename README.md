@@ -11,8 +11,10 @@ checked by SHA-256 before launch. Every number below was measured on the same ma
 | Agentic decode, 177 real coding-agent requests (tok/s) | 62.3 | 74.5 | 83.6 | **81.5** |
 | &nbsp;&nbsp;vs stock | | +20 % | +34 % | **+31 %** |
 | Decode step, 18 agentic requests decoded greedily (ms per step) | 65.4 | 54.8 | 48.6 | 47.4 |
-| Single-stream decode, short prompts (tok/s) | 40.7 | 47.7 | 49.9 | 48.6 |
-| 4 concurrent streams, total (tok/s) | 75.3 | 94.2 | 91.3 | 92.9 |
+| Decode, agentic coding, 1 stream (tok/s) | 60.7 | 70.4 | 80.4 | **81.0** |
+| Decode, agentic coding, 4 streams: total / per stream (tok/s) | 125.7 / 31.4 | 140.1 / 35.0 | 141.1 / 35.3 | **144.2 / 36.1** |
+| Decode, prose, 1 stream (tok/s) | 34.6 | 39.3 | 46.2 | **47.0** |
+| Decode, prose, 4 streams: total / per stream (tok/s) | 81.6 / 20.4 | 90.6 / 22.6 | 89.8 / 22.4 | **90.0 / 22.5** |
 | Prompt processing, real agent prompts of 7K-80K tokens (tok/s) | 2,590 | 4,225 | 4,519 | **4,800** |
 | Prompt processing, 4K / 32K / 128K-token documents (tok/s) | 1,404 / 2,483 / 2,189 | 3,976 / 4,024 / 2,932 | 4,161 / 4,226 / 3,347 | 4,265 / 4,508 / 3,532 |
 | Time to first token, short prompt (ms) | 221 | 173 | 163 | 162 |
@@ -25,7 +27,17 @@ generated tokens per second (mean of two runs for `fast` and `fastest`). `fast` 
 equally valid sampled replies, and how many draft tokens are accepted per step depends on the reply text: in these
 runs `fastest`'s replies accepted 3 % fewer per step (3.95 vs 4.08) although its decode step is shorter, and in the
 tuning runs the order was reversed (84.0 vs 81.6). Treat the two as equal on decode; `fastest` gains in prompt
-processing. Every run with its 95 % CI: [results/headline.md](results/headline.md). Details in
+processing. Every run with its 95 % CI: [results/headline.md](results/headline.md).
+
+**Prose vs agentic coding, 1 vs 4 streams.** The four "Decode, ..." rows are one matched measurement
+([results/concurrency.md](results/concurrency.md)): the same requests and seeds for every profile, decode speed only
+(prompt processing is excluded). Agentic coding replays the same 177 recorded requests as the headline row (one
+session at a time, or four sessions at once); prose is four explanation and writing prompts at temperature 1. Code
+decodes about twice as fast as prose because the drafter guesses it better: about 4.0 tokens are accepted per
+verify step on agentic coding against 2.1 on prose. Four streams give 1.7-2.3x the total of one stream, not 4x:
+each stream verifies 8 tokens per step, so 4 streams send 32 tokens through the MoE layers and together touch
+most experts (8 tokens already touch about 40 % of them), and the int8 and split-K decode kernels act only up to
+2 concurrent requests. Per stream, 4 users each get about 35 tok/s on agentic coding and 22 tok/s on prose. Details in
 [How it was measured](#how-it-was-measured).
 
 ## Quick start
