@@ -34,7 +34,7 @@ processing. Every run with its 95 % CI: [results/headline.md](results/headline.m
 (prompt processing is excluded). Agentic coding replays the same 177 recorded requests as the headline row (one
 session at a time, or four sessions at once); prose is four explanation and writing prompts at temperature 1. Code
 decodes about twice as fast as prose because the drafter guesses it better: about 4.0 tokens are accepted per
-verify step on agentic coding against 2.1 on prose. Four streams give 1.7-2.3x the total of one stream, not 4x:
+verify step on agentic coding against 2.1 on prose. Four streams give 1.75-2.35x the total of one stream, not 4x:
 each stream verifies 8 tokens per step, so 4 streams send 32 tokens through the MoE layers and together touch
 most experts (8 tokens already touch about 40 % of them), and the int8 and split-K decode kernels act only up to
 2 concurrent requests. Per stream, 4 users each get about 35 tok/s on agentic coding and 22 tok/s on prose. Details in
