@@ -30,7 +30,7 @@ processing. Every run with its 95 % CI: [results/headline.md](results/headline.m
 
 ## Quick start
 
-You need a DGX Spark (GB10), Docker with the NVIDIA runtime, about 25 GB of disk, and about 100 GiB of free unified
+You need a DGX Spark (GB10), Docker with the NVIDIA runtime, about 50 GB of disk (20 GB of weights plus the 27 GB vLLM image), and about 100 GiB of free unified
 memory (stop other GPU work first).
 
 ```bash
@@ -88,7 +88,7 @@ distribution),
 |---|---|---|---|---|
 | Persistent caches and eager weight loading | compiled kernels and graphs are reused; weights load in one pass instead of on demand | startup 368 s -> 93 s (76-79 s in the final profiles) | bit-exact | all |
 | Pruned draft vocabulary (32,768 tokens) | the drafter scored all 201,024 tokens 7 times per step; most are never proposed | agentic replay +10.3 %, short-prompt decode +5 % | draft-side exact | all |
-| Expert GEMM launch tiles for GB10 | the stock tiles left the GPU under-used for this chip's SM count | real-prompt prefill +11-13 %, decode +1 % | bit-exact | all |
+| Expert GEMM launch tiles for GB10 | the stock prefill tiles re-read each block of activations for every 64 output columns; 256-wide tiles reuse it 4x more | real-prompt prefill +11-13 %, decode +1 % | bit-exact | all |
 | 8,192-token prefill chunks | fewer, larger steps for long prompts | real-prompt prefill +3-5 %, prompts over 30K +8-9 % | rounding-level | all |
 | Native MXFP8 MMA for prefill tiles (layers 20-23) | uses the FP8 tensor cores instead of converting to BF16 first | real-prompt prefill +2.5-4 % | rounding-level (KL 0.00003) | all |
 | Humming NVFP4 expert backend (`--moe-backend humming`) | a faster, bit-identical NVFP4 expert GEMM already in the image | real-prompt prefill +14 %, decode +2 % | bit-exact | all |
